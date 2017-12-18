@@ -45,6 +45,10 @@ var utils = (function (utils) {
         return document.createElement('canvas').getContext ? true : false;
     };
 
+    /**
+     * 判断是否是微信端
+     * @returns {boolean}
+     */
     var isWeiXin = function () {
         var ua = navigator.userAgent.toLowerCase();
         // match() 方法将检索字符串 stringObject，以找到一个或多个与 regexp 匹配的文本。这个方法的行为在很大程度上有赖于 regexp 是否具有标志 g。
@@ -56,6 +60,23 @@ var utils = (function (utils) {
         // console.log(typeof ua.match(/MicroMessenger/i)); // object
         // 自动转了字符串
         return ua.match(/MicroMessenger/i) == "micromessenger" ? true : false;
+    };
+
+    /**
+     * 复制对象
+     * @param obj 传入一个对象
+     * @returns {{}}返回一个新的复制的对象
+     */
+    var cloneObject = function (obj) {
+        var o = {};
+        for (var key in obj) {
+            if (typeof key === 'object') {
+                o[key] = cloneObject(key);
+            } else {
+                o[key] = obj[key];
+            }
+        }
+        return o;
     };
 
 
