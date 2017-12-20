@@ -1,0 +1,57 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>3.复制对象-1</title>
+    <style>
+        body {
+            background: #000;
+            color: deeppink;
+        }
+
+        button {
+            width: 50%;
+            height: 60px;
+            background: darkturquoise;
+            color: #000;
+        }
+    </style>
+</head>
+<body>
+<script src="../modules/utils.js"></script>
+<script>
+    var obj1 = {
+        name: 'obj1',
+        getName: function () {
+            console.log('obj1-getName');
+        },
+        sex: {
+            setSex: function () {
+                console.log('obj1-sex-setSex');
+            }
+        }
+    };
+
+
+    var obj3 = {
+        name: 'obj3',
+        sex: {
+            setSex: {
+                setSex: function () {
+                    console.log('obj3-sex-setSex-setSex');
+                }
+            }
+        }
+    };
+
+    var extendObj = utils.extendDeep({}, obj1, obj3);
+    console.log(extendObj.sex);
+    console.log(extendObj.sex.setSex);
+    console.log(extendObj.sex.setSex.setSex);
+
+</script>
+</body>
+</html>

@@ -79,12 +79,50 @@ var utils = (function (utils) {
         return o;
     };
 
+    /**
+     * （1）如果要复制多个对象的属性到一个对象上面
+     *  extendDeep(obj1,obj2,obj3,obj4); 复制obj2,obj3,obj4的属性到obj1上面
+     *
+     * （2）如果要复制多个对象的属性到一个对象上面，不改变原来你的对象
+     *  extendDeep({},obj1,obj2,obj3,obj4); 复制obj1,obj2,obj3,obj4的属性到{}上面
+     *
+     *
+     *
+     *
+     * @returns {Window}
+     */
+    var extendDeep = function () {
+        // 深度复制对象，从第二个对象开始，将后面的所有对象的属性都复制到第一个对象上面来
+        var firstObj = arguments[0] || {};
+        var len = arguments.length;
+        var otherObj = null;
+
+        for (var i = 1; i < len; i++) {
+            otherObj = arguments[i];
+            for (var key in otherObj) {
+                // 只复制自己的属性，不复制继承过来的属性
+                if (otherObj.hasOwnProperty(key)) {
+                    if (Object.prototype.toString.call(otherObj[key]) === '[object Object]') {
+                        // 如果要合并过来的对象中，有的属性，但是在前面的对象中没有，也要合并过来
+                        // 用对象来接收返回的值
+                        firstObj[key] = extendDeep(firstObj[key], otherObj[key]);
+                    } else {
+                        firstObj[key] = otherObj[key];
+                    }
+                }
+            }
+        }
+        return firstObj;
+    };
+
 
     utils.isSupportSVG = isSupportSVG;
     utils.fullscreen = fullscreen;
     utils.cancleFullscreen = cancleFullscreen;
     utils.isSupportCanvas = isSupportCanvas;
     utils.isWeiXin = isWeiXin;
+    utils.cloneObject = cloneObject;
+    utils.extendDeep = extendDeep;
 
     return utils;
 
