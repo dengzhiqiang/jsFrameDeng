@@ -14,6 +14,7 @@ var stringBulider = (function () {
         return this;
     };
 
+
     /**
      * 生成字符串
      * @param str 默认为空,如果传入','逗号，则用逗号分隔数组

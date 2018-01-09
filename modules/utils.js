@@ -116,6 +116,44 @@ var utils = (function (utils) {
     };
 
 
+    /*loadScript('http://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js', function () {
+        // 通过DOM创建的script，文件的下载和执行并不会阻塞页面的其他进程，这和页面本身的渲染有所不同
+        // 并不会按照顺序来加载文件，而是按照服务器返回的速度
+        // 所以为了保证加载顺序可以向下面这样做
+        loadScript('http://apps.bdimg.com/libs/jquery-lazyload/1.9.5/jquery.lazyload.min.js', function () {
+            alert($);
+        })
+    });*/
+    /**
+     * 加载JavaScript代码
+     * @param url
+     * @param callback  加载完成的回调函数
+     */
+    var loadScript = function (url, callback) {
+        var script = document.createElement('script');
+        script.type = "text/javascript";
+
+        if (script.readyState) {// IE
+            script.onreadystatechange = function () {
+                //  loaded下载完成
+                //  complete 所有数据准备就绪
+                // 二者可能会执行其中一个,也有可能都执行
+                if (script.readyState === 'loaded' || script.readyState === 'complete') {
+                    // 防止重复加载
+                    script.onreadystatechange = null;
+                    callback();
+                }
+            }
+        } else { // 其他浏览器
+            script.onload = function () {
+                callback();
+            }
+        }
+
+        script.src = url;
+        document.getElementsByTagName('head')[0].appendChild(script);
+    }
+
     utils.isSupportSVG = isSupportSVG;
     utils.fullscreen = fullscreen;
     utils.cancleFullscreen = cancleFullscreen;
@@ -123,6 +161,7 @@ var utils = (function (utils) {
     utils.isWeiXin = isWeiXin;
     utils.cloneObject = cloneObject;
     utils.extendDeep = extendDeep;
+    utils.loadScript = loadScript;
 
     return utils;
 
